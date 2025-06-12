@@ -1,31 +1,30 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
 
 using namespace cv;
+using namespace std;
 
-int main() {
-    int imgcols, imgrows, numimgpixels;
+int main()
+{
+    // Membaca gambar dari path yang diberikan
+    Mat img = imread("D:/Praktikum Pencitraan Digital/Images/michael.jpg");
 
-    // Membaca file gambar dari komputer lokal
-    cv::Mat src = cv::imread("gambar.JPG");
-    cv::Mat result;
-
-    if (src.empty()) {
-        std::cout << "Gagal membuka gambar.JPG" << std::endl;
+    // Memeriksa apakah gambar berhasil dibuka
+    if (img.empty()) {
+        cout << "Failed to open michael.jpg" << endl;
     } else {
-        std::cout << "gambar.JPG berhasil dimuat" << std::endl;
+        cout << "michael.jpg loaded OK" << endl;
     }
 
-    // Membuat window dan menampilkan gambar
-    namedWindow("First OpenCV Application", WINDOW_NORMAL); // Atau gunakan WINDOW_AUTOSIZE
-    cv::imshow("First OpenCV Application", src);
-    cv::moveWindow("First OpenCV Application", 0, 45);
+    // Menampilkan gambar
+    namedWindow("First OpenCV Application", WINDOW_NORMAL); // Gunakan WINDOW_AUTOSIZE jika tidak ingin bisa di-resize
+    imshow("First OpenCV Application", img);
+    moveWindow("First OpenCV Application", 0, 45);
 
-    cv::waitKey(0);
-    cv::destroyAllWindows();
+    waitKey(0); // Menunggu sampai tombol ditekan
+    destroyAllWindows(); // Menutup semua jendela
 
     return 0;
 }
