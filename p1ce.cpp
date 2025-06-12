@@ -3,56 +3,48 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
-using namespace cv;
 
-void Brightness(Mat& src, Mat& dst, int value);
+using namespace cv;
+using namespace std;
+
+// Fungsi untuk menginversi citra (negatif)
+void Invert(Mat& src, Mat& dst) {
+    bitwise_not(src, dst);
+}
 
 int main()
 {
-    cv::Mat img = cv::imread("D:\\Praktikum Pencitraan Digital\\Images\\michael.jpg");
+    // Membaca gambar dari file
+    Mat img = imread("D:/Praktikum Pencitraan Digital/Images/michael.jpg");
+    Mat inverted_image;
 
-    if (img.empty())
-        std::cout << "failed to open img.jpg" << std::endl;
-    else
-        std::cout << "img.jpg loaded OK" << std::endl;
+    if (img.empty()) {
+        cout << "Failed to open michael.jpg" << endl;
+        return -1;
+    } else {
+        cout << "michael.jpg loaded OK" << endl;
+    }
 
-    namedWindow("First OpenCV Application", WINDOW_NORMAL /*WINDOW_AUTOSIZE*/);
-    cv::imshow("First OpenCV Application", img);
+    // Tampilkan gambar asli
+    namedWindow("Original Image", WINDOW_NORMAL);
+    imshow("Original Image", img);
 
-    // Brightness(img, result, 10);
+    // Konversi ke gambar negatif
+    Invert(img, inverted_image);
 
-    // increase the brightness by 50
-    Mat imageBrightnessHigh50;
-    img.convertTo(imageBrightnessHigh50, -1, 1, 50);
-    namedWindow("Brightness50", WINDOW_NORMAL /*WINDOW_AUTOSIZE*/);
-    cv::imshow("Brightness50", imageBrightnessHigh50);
+    // Tampilkan hasil inversi
+    namedWindow("Inverted Image", WINDOW_NORMAL);
+    imshow("Inverted Image", inverted_image);
 
-    // increase the brightness by 100
-    Mat imageBrightnessHigh100;
-    img.convertTo(imageBrightnessHigh100, -1, 1, 100);
-    namedWindow("Brightness100", WINDOW_NORMAL /*WINDOW_AUTOSIZE*/);
-    cv::imshow("Brightness100", imageBrightnessHigh100);
+    // Simpan hasil gambar negatif
+    imwrite("D:/Praktikum Pencitraan Digital/Images/michael_invert.jpg", inverted_image);
 
-    // decrease the brightness by 50
-    Mat imageBrightnessLow50;
-    img.convertTo(imageBrightnessLow50, -1, 1, -50);
-    namedWindow("low50", WINDOW_NORMAL /*WINDOW_AUTOSIZE*/);
-    cv::imshow("low50", imageBrightnessLow50);
+    // Atur posisi jendela
+    moveWindow("Original Image", 0, 45);
+    moveWindow("Inverted Image", 500, 45);
 
-    // decrease the brightness by 100
-    Mat imageBrightnessLow100;
-    img.convertTo(imageBrightnessLow100, -1, 1, -100);
-    namedWindow("low100", WINDOW_NORMAL /*WINDOW_AUTOSIZE*/);
-    cv::imshow("low100", imageBrightnessLow100);
-
-    cv::moveWindow("First OpenCV Application", 0, 45);
-    cv::moveWindow("Brightness50", 30, 90);
-    cv::moveWindow("Brightness100", 50, 135);
-    cv::moveWindow("low50", 75, 170);
-    cv::moveWindow("low100", 90, 200);
-
-    cv::waitKey(0);
-    cv::destroyAllWindows();
+    waitKey(0);
+    destroyAllWindows();
 
     return 0;
 }
